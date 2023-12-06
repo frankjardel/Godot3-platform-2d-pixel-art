@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Fruits/FruitsBag.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Player/heart.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Player/clock.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/TimeCounter.gd" type="Script" id=5]
+[ext_resource path="res://Images/buttons/lineLight22.png" type="Texture" id=6]
+[ext_resource path="res://Images/buttons/lineLight24.png" type="Texture" id=7]
+[ext_resource path="res://Images/buttons/lineLight23.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://Fonts/ModernDOS9x16.ttf"
@@ -99,5 +102,28 @@ margin_bottom = 23.0
 theme = SubResource( 3 )
 text = "0"
 align = 1
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 159.0
+margin_right = 320.0
+margin_bottom = 192.0
+
+[node name="Control" type="Control" parent="Buttons"]
+margin_bottom = 33.0
+
+[node name="Left" type="TouchScreenButton" parent="Buttons/Control"]
+position = Vector2( 13, -7 )
+scale = Vector2( 0.3375, 0.3375 )
+normal = ExtResource( 6 )
+
+[node name="Right" type="TouchScreenButton" parent="Buttons/Control"]
+position = Vector2( 54, -7 )
+scale = Vector2( 0.3375, 0.3375 )
+normal = ExtResource( 8 )
+
+[node name="Jump" type="TouchScreenButton" parent="Buttons/Control"]
+position = Vector2( 278, -7 )
+scale = Vector2( 0.3375, 0.3375 )
+normal = ExtResource( 7 )
 
 [connection signal="timeout" from="HBoxContainer/Holder2/Timer" to="HBoxContainer/Holder2" method="_on_Timer_timeout"]

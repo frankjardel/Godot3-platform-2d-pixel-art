@@ -11,13 +11,13 @@
 [ext_resource path="res://Scenes/Apple.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Mushroom.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Checkpoint.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/Final.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Goal.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/FallingPlatform.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/MovingPlatform.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Transition_in.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Transition_out.tscn" type="PackedScene" id=16]
 
-[sub_resource type="Shader" id=120]
+[sub_resource type="Shader" id=174]
 code = "shader_type canvas_item;
 
 uniform vec2 Direction = vec2(1.0,0.0);
@@ -29,7 +29,7 @@ void fragment()
 }"
 
 [sub_resource type="ShaderMaterial" id=121]
-shader = SubResource( 120 )
+shader = SubResource( 174 )
 shader_param/Direction = Vector2( 1, 0 )
 shader_param/Speed = 0.02
 
@@ -294,17 +294,17 @@ position = Vector2( 2675, 162 )
 [node name="Mushroom2" parent="Enemies" instance=ExtResource( 10 )]
 position = Vector2( 488, 160 )
 
-[node name="Final" parent="." instance=ExtResource( 12 )]
-position = Vector2( 2799, 128 )
-
 [node name="Checkount" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1401, 32 )
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 25, 144 )
 
 [node name="Transition_in" parent="." instance=ExtResource( 15 )]
 
 [node name="Transition_out" parent="." instance=ExtResource( 16 )]
+
+[node name="Goal" parent="." instance=ExtResource( 12 )]
+position = Vector2( 2801, 128 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 25, 144 )
 
 [connection signal="body_entered" from="fall-zone" to="fall-zone" method="_on_fallzone_body_entered"]

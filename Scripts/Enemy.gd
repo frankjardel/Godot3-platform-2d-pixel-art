@@ -34,15 +34,16 @@ func _on_Timer_timeout():
 
 func _on_hitbox_body_entered(body):
 	if body.name == "Player":
-		body.velocity.y = body.jump_force
+		AudioController.enemy_hit_fx()
 		is_die = true
+		body.velocity.y = body.jump_force
 		$AnimatedSprite.play("Hit")
+
+
+func _set_animation(animation_name="Run"):
+	$AnimatedSprite.play(animation_name)
 
 
 func _on_hitbox_body_exited(body):
 	if is_die:
 		queue_free()
-
-
-func _set_animation(animation_name="Run"):
-	$AnimatedSprite.play(animation_name)

@@ -15,10 +15,15 @@ var knockback_intencity = 175
 var is_grounded: bool
 onready var raycasts: Node2D = $Raycasts
 
+var pressed_left: bool
+var pressed_right: bool
+
 
 func _ready():
 	Global.hearts = 3
 	position = Global.checkpoint_position
+	
+	AudioController.player_music()
 
 
 func _physics_process(delta):
@@ -28,8 +33,18 @@ func _physics_process(delta):
 		can_jump = true
 	
 	if !hurted:
-		_get_input()
-	
+		if pressed_left:
+			direction = -1
+			velocity.x = lerp(velocity.x, speed * direction, 0.2)
+			$AnimatedSprite.scale.x = direction
+			
+		elif pressed_right:
+			direction = 1
+			velocity.x = lerp(velocity.x, speed * direction, 0.2)
+			$AnimatedSprite.scale.x = direction
+		else:
+			_get_input()
+
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
 	is_grounded = _check_is_grounded()
@@ -45,7 +60,7 @@ func _physics_process(delta):
 func _get_input():
 	direction = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 	velocity.x = lerp(velocity.x, speed * direction, 0.2)
-	
+	print(direction)
 	if direction != 0:
 		$AnimatedSprite.scale.x = direction
 		knockback_direction = direction
@@ -55,6 +70,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("jump") and is_grounded and can_jump:
 		velocity.y = jump_force
 		can_jump = false
+		$jumpFx.play()
 	if event.is_action_released("jump") and !is_grounded and can_jump:
 		velocity.y = velocity.y / 2
 		can_jump = false
@@ -75,6 +91,7 @@ func _on_hurtbox_body_entered(body):
 	yield(get_tree().create_timer(0.3), "timeout")
 	get_node("hurtbox/CollisionShape2D").set_deferred("disabled", false)
 	hurted = false
+	$HitFX.play()
 	
 	if Global.hearts < 1:
 		queue_free()
@@ -110,3 +127,30 @@ func _set_animation():
 		animation = "Hit"
 		
 	$AnimatedSprite.play(animation)
+
+
+func _on_Left_pressed():
+	pressed_left = true
+
+
+func _on_Left_released():
+	pressed_left = false
+
+
+func _on_Right_pressed():
+	pressed_right = true
+
+
+func _on_Right_released():
+	pressed_right = false
+
+
+func _on_Jump_pressed():
+	if is_grounded and can_jump:
+		velocity.y = jump_force
+		can_jump = false
+
+
+func _on_Jump_released():
+	velocity.y = velocity.y / 2
+	can_jump = false

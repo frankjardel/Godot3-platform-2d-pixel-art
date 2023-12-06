@@ -9,3 +9,4 @@ func _on_Area2D_body_entered(body):
 		Global.checkpoint_position = Vector2()
 		$Particles2D.emitting = true
 		changer.change_scene(path)
+		$VictoryFX.play()

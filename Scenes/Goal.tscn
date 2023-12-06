@@ -1,0 +1,111 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Assets/Checkpoints/End/End (Pressed) (64x64).png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Goal.gd" type="Script" id=2]
+[ext_resource path="res://Audio/level_completed.wav" type="AudioStream" id=3]
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.284946, 0.543011, 0.774194, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 0.898438, 0, 1, 1, 0.457397, 0.0078125, 1, 1, 0.355469, 0.355469, 0.355469, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=13]
+gradient = SubResource( 12 )
+
+[sub_resource type="Curve" id=14]
+_data = [ Vector2( 0.0191388, 1 ), 0.0, -0.0282741, 0, 0, Vector2( 1, 0 ), -2.89453, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=15]
+curve = SubResource( 14 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.3
+angular_velocity_random = 0.2
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 41.38
+linear_accel_random = 0.67
+angle_random = 0.42
+scale = 2.0
+scale_random = 0.5
+scale_curve = SubResource( 15 )
+color = Color( 0.992157, 1, 0.0352941, 1 )
+color_initial_ramp = SubResource( 13 )
+hue_variation = 1.0
+hue_variation_random = 1.0
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 10, 21 )
+
+[node name="Goal" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 0, -6 )
+emitting = false
+amount = 20
+explosiveness = 0.6
+randomness = 0.2
+process_material = SubResource( 11 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 9 )
+animation = "Idle"
+frame = 6
+playing = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, 11 )
+shape = SubResource( 10 )
+
+[node name="VictoryFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -10.0
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
