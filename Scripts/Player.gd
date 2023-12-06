@@ -149,6 +149,7 @@ func _on_Jump_pressed():
 	if is_grounded and can_jump:
 		velocity.y = jump_force
 		can_jump = false
+		$jumpFx.play()
 
 
 func _on_Jump_released():
